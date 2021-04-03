@@ -1,5 +1,6 @@
 <?php
 ini_set('display_errors', 1);
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 // use Slim\App;
@@ -45,12 +46,13 @@ $app->get('/comic/{name}', function (Request $request, Response $response, $args
     return $response;
 });
 
-// $app->get('/color/{color}', function (Request $request, Response $response, $args) {
-//     $color = $args['color'];
-//     $url = $args['url']
-//     $response->getBody()->write('https://www.google.com/search?q='$color);
-//     return $response->withRedirect('/url', 301);
-// });
+$app->get('/color/{color}', function (Request $request, Response $response, $args) {
+    $color = $args['color'];
+    $response->getBody()->write('https://www.google.com/search?q=' . $color);
+    return $response
+        ->withHeader('Location', 'https://www.google.com/search?q=' . $color)
+        ->withStatus(302);
+});
 
 // Run app
 $app->run();
